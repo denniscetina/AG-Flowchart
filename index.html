@@ -10,16 +10,12 @@
 <body>
   <a-scene arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;" vr-mode-ui="enabled: false">
     <a-assets>
-      
-      <a-asset-item id="Con_obj" src="Modelos/fish.obj"></a-asset-item>
-      <a-asset-item id="Con_mtl" src="Modelos/fish.mtl"></a-asset-item>
+      <img id="imagen" src="mjk.jpg">
     </a-assets>
     <a-marker type="pattern" preset="hiro" markerhandler>
       <a-entity grabbable>
-        <!-- Uncomment the appropriate line based on the model you want to use -->
-        <!-- <a-dodecahedron color="#FF926B" radius="1"></a-dodecahedron> -->
-        <!-- <a-obj-model src="#PS5_obj" mtl="#PS5_mtl"></a-obj-model> -->
-        <a-obj-model src="#Con_obj" mtl="#Con_mtl"></a-obj-model>
+        <!-- Utiliza a-image en lugar de a-obj-model -->
+        <a-image src="#imagen"></a-image>
       </a-entity>
     </a-marker>
     <a-entity camera></a-entity>
