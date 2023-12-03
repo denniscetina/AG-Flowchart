@@ -22,10 +22,30 @@
     <!-- Puedes agregar más elementos aquí -->
 
     <!-- Cámara con AR y sin marcador -->
-    <a-entity camera></a-entity>
+    <a-entity camera look-controls position="0 1.6 0"></a-entity>
+    <a-entity id="rig" position="25 10 0">
+      <a-entity camera look-controls>
+        <a-entity geometry="primitive: plane; height: 0.2; width: 0.2" position="0 0 -1"
+                  material="color: gray; opacity: 0.5"></a-entity>
+      </a-entity>
+    </a-entity>
   </a-scene>
 
   <script>
+    AFRAME.registerComponent('rotation-reader', {
+  tick: function () {
+    // `this.el` is the element.
+    // `object3D` is the three.js object.
+
+    // `rotation` is a three.js Euler using radians. `quaternion` also available.
+    console.log(this.el.object3D.rotation);
+
+    // `position` is a three.js Vector3.
+    console.log(this.el.object3D.position);
+  }
+});
+    var secondCameraEl = document.querySelector('#second-camera');
+secondCameraEl.setAttribute('camera', 'active', true);
     function scaleObject(objectId, scaleAmount) {
       var target = document.getElementById(objectId);
       var currentScale = target.getAttribute('scale');
