@@ -16,6 +16,8 @@
   </a-scene>
 
   <script>
+    var secondCameraEl = document.querySelector('#second-camera');
+secondCameraEl.setAttribute('camera', 'active', true);
     AFRAME.registerComponent('grabbable', {
       init: function () {
         this.Grab = this.Grab.bind(this);
