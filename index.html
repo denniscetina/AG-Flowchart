@@ -17,18 +17,15 @@
 
   <a-scene embedded arjs='sourceType: webcam;'>
     <!-- Agrega elementos 3D para representar tu diagrama de flujo -->
-    <a-box id="myBox" color="red" scale="1 1 1"></a-box>
-    <a-cylinder id="myCylinder" color="blue" scale="1 1 1"></a-cylinder>
+    <a-entity camera look-controls position="0 1.6 0">
+      <a-box grabbable id="myBox" color="red" scale="1 1 1"></a-box>
+      <a-cylinder id="myCylinder" color="blue" scale="1 1 1"></a-cylinder>
+    </a-entity>
+    
     <!-- Puedes agregar más elementos aquí -->
 
     <!-- Cámara con AR y sin marcador -->
-    <a-entity camera look-controls position="0 1.6 0"></a-entity>
-    <a-entity id="rig" position="25 10 0">
-      <a-entity camera look-controls>
-        <a-entity geometry="primitive: plane; height: 0.2; width: 0.2" position="0 0 -1"
-                  material="color: gray; opacity: 0.5"></a-entity>
-      </a-entity>
-    </a-entity>
+    
   </a-scene>
 
   <script>
