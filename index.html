@@ -3,48 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
-  <script src="https://jeromeetienne.github.io/AR.js/aframe/build/aframe-ar.js"></script>
+  <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
 </head>
 <body>
-  <!-- Botones HTML para controlar la escala -->
-  <div style="position: absolute; top: 10px; left: 10px; z-index: 1;">
-    <button onclick="scaleObject('myBox', 1.2)">Scale Up</button>
-    <button onclick="scaleObject('myBox', 0.8)">Scale Down</button>
-    <button onclick="scaleObject('myCylinder', 1.2)">Scale Up</button>
-    <button onclick="scaleObject('myCylinder', 0.8)">Scale Down</button>
-  </div>
+  <a-scene>
+    <!-- Caja en el entorno de realidad virtual -->
+    <a-box position="0 1.6 -5" rotation="0 45 0" color="#4CC3D9" shadow></a-box>
 
-  <a-scene embedded arjs='sourceType: webcam;'>
-    <!-- Agrega elementos 3D para representar tu diagrama de flujo -->
-    <a-box id="myBox" grabbable color="red" scale="1 1 1"></a-box>
-    <a-cylinder id="myCylinder" grabbable color="blue" scale="1 1 1"></a-cylinder>
-    <!-- Puedes agregar más elementos aquí -->
+    <!-- Plano que representa el suelo -->
+    <a-plane position="0 0 -4" rotation="-90 0 0" width="4" height="4" color="#7BC8A4" shadow></a-plane>
 
-    <!-- Cámara con AR y sin marcador -->
+    <!-- Cielo -->
+    <a-sky color="#ECECEC"></a-sky>
+
+    <!-- Cámara de realidad virtual -->
     <a-entity camera look-controls position="0 1.6 0"></a-entity>
-    <a-entity id="rig" position="25 10 0">
-      <a-entity camera look-controls>
-        <a-entity geometry="primitive: plane; height: 0.2; width: 0.2" position="0 0 -1"
-                  material="color: gray; opacity: 0.5"></a-entity>
-      </a-entity>
-    </a-entity>
   </a-scene>
-
-  <script>
-    var secondCameraEl = document.querySelector('#second-camera');
-secondCameraEl.setAttribute('camera', 'active', true);
-    function scaleObject(objectId, scaleAmount) {
-      var target = document.getElementById(objectId);
-      var currentScale = target.getAttribute('scale');
-
-      // Escala el objeto
-      target.setAttribute('scale', {
-        x: currentScale.x * scaleAmount,
-        y: currentScale.y * scaleAmount,
-        z: currentScale.z * scaleAmount
-      });
-    }
-  </script>
 </body>
 </html>
