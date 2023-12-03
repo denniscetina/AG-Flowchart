@@ -11,14 +11,15 @@
   <div style="position: absolute; top: 10px; left: 10px; z-index: 1;">
     <button onclick="scaleObject('myBox', 1.2)">Scale Up</button>
     <button onclick="scaleObject('myBox', 0.8)">Scale Down</button>
-    
   </div>
 
   <a-scene embedded arjs='sourceType: webcam;'>
     <!-- Agrega elementos 3D para representar tu diagrama de flujo -->
     <a-box id="myBox" grabbable color="red" scale="1 1 1"></a-box>
-    <a-box id="myBox2" grabbable color="green" scale="1 1 1" position="2"></a-box>
-    <a-entity scale="5 5 5" position="3 2" text="value: Hello World;"></a-entity>
+    
+    <a-entity scale="5 5 5" position="0 2 0">
+      <a-text value="Hello World" align="center" position="0 0.5 0" color="#000"></a-text>
+    </a-entity>
     
     <!-- Puedes agregar más elementos aquí -->
 
@@ -28,8 +29,6 @@
   </a-scene>
 
   <script>
-    var secondCameraEl = document.querySelector('#second-camera');
-secondCameraEl.setAttribute('camera', 'active', true);
     function scaleObject(objectId, scaleAmount) {
       var target = document.getElementById(objectId);
       var currentScale = target.getAttribute('scale');
