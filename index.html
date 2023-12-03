@@ -7,53 +7,40 @@
   <script src="https://jeromeetienne.github.io/AR.js/aframe/build/aframe-ar.js"></script>
 </head>
 <body>
-  <!-- Botones HTML para controlar la galería -->
+  <!-- Botones HTML para controlar la escala -->
   <div style="position: absolute; top: 10px; left: 10px; z-index: 1;">
-    <button onclick="cambiarImagen(-1)">Anterior</button>
-    <button onclick="cambiarImagen(1)">Siguiente</button>
+    <button onclick="scaleObject('myBox', 1.2)">Scale Up</button>
+    <button onclick="scaleObject('myBox', 0.8)">Scale Down</button>
   </div>
 
-  <!-- Galería de objetos -->
   <a-scene embedded arjs='sourceType: webcam;'>
-    <a-entity id="galeria" position="0 2 -5" galeria>
-      <a-box id="objeto1" color="red" scale="1 1 1" visible="false"></a-box>
-      <a-cylinder id="objeto2" color="green" scale="1 1 1" visible="false"></a-cylinder>
-      <a-sphere id="objeto3" color="blue" scale="1 1 1" visible="false"></a-sphere>
-      <a-cone id="objeto4" color="yellow" scale="1 1 1" visible="false"></a-cone>
+    <!-- Agrega elementos 3D para representar tu diagrama de flujo -->
+    <a-box id="myBox" grabbable color="red" scale="1 1 1"></a-box>
+    
+    <a-entity scale="5 5 5" position="0 2 0">
+      <a-text value="Hello World" align="center" position="0 0.5 0" color="#FFFFFF"></a-text>
     </a-entity>
+    
+    
+    <!-- Puedes agregar más elementos aquí -->
 
     <!-- Cámara con AR y sin marcador -->
     <a-entity camera="zoom: 1" look-controls position="0 2 8"></a-entity>
+    
   </a-scene>
 
   <script>
-    function cambiarImagen(direccion) {
-      var galeria = document.getElementById('galeria').components.galeria;
-      galeria.cambiarImagen(direccion);
+    function scaleObject(objectId, scaleAmount) {
+      var target = document.getElementById(objectId);
+      var currentScale = target.getAttribute('scale');
+
+      // Escala el objeto
+      target.setAttribute('scale', {
+        x: currentScale.x * scaleAmount,
+        y: currentScale.y * scaleAmount,
+        z: currentScale.z * scaleAmount
+      });
     }
-
-    AFRAME.registerComponent('galeria', {
-      init: function () {
-        this.indiceActual = 0;
-        this.objetos = this.el.children;
-
-        // Ocultar todos los objetos al inicio
-        this.objetos.forEach(objeto => objeto.setAttribute('visible', false));
-
-        // Mostrar el primer objeto
-        this.mostrarObjeto(this.indiceActual);
-      },
-      cambiarImagen: function (direccion) {
-        // Ocultar el objeto actual
-        this.objetos[this.indiceActual].setAttribute('visible', false);
-
-        // Cambiar el índice actual
-        this.indiceActual = (this.indiceActual + direccion + this.objetos.length) % this.objetos.length;
-
-        // Mostrar el nuevo objeto
-        this.objetos[this.indiceActual].setAttribute('visible', true);
-      }
-    });
   </script>
 </body>
 </html>
