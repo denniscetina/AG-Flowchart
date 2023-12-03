@@ -4,21 +4,30 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
-  <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+  <script src="https://jeromeetienne.github.io/AR.js/aframe/build/aframe-ar.js"></script>
 </head>
 <body>
   <a-scene embedded arjs='sourceType: webcam;'>
-    <!-- Caja que se puede agarrar y mover -->
-    <a-box color="red" scale="1 1 1" ></a-box>
+    <!-- Agrega elementos 3D para representar tu diagrama de flujo -->
+    <a-box id="myBox" color="red"></a-box>
+    <a-cylinder id="myCylinder" color="blue"></a-cylinder>
+    <!-- Puedes agregar más elementos aquí -->
 
     <!-- Cámara con AR y sin marcador -->
     <a-entity camera></a-entity>
+
+    <a-entity gps-camera rotation-reader></a-entity>
   </a-scene>
 
   <script>
-    var secondCameraEl = document.querySelector('#second-camera');
-secondCameraEl.setAttribute('camera', 'active', true);
-    
+    AFRAME.registerComponent('rotation-reader', {
+      tick: function () {
+        var rotation = this.el.getAttribute('rotation');
+        // Ajusta la rotación de los objetos según la rotación de la cámara
+        document.getElementById('myBox').setAttribute('rotation', rotation);
+        document.getElementById('myCylinder').setAttribute('rotation', rotation);
+      }
+    });
   </script>
 </body>
 </html>
