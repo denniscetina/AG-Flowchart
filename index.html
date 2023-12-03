@@ -5,13 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
   <script src="https://jeromeetienne.github.io/AR.js/aframe/build/aframe-ar.js"></script>
-  <script src="https://rawgit.com/ngokevin/aframe-gui/master/dist/aframe-gui.js"></script>
 </head>
 <body>
   <a-scene embedded arjs='sourceType: webcam;'>
     <!-- Agrega elementos 3D para representar tu diagrama de flujo -->
-    <a-box id="myBox" grabbable pinch-to-scale color="red" scale="1 1 1"></a-box>
-    <a-cylinder id="myCylinder" grabbable pinch-to-scale color="blue" scale="1 1 1"></a-cylinder>
+    <a-box id="myBox" pinchable draggable color="red" scale="1 1 1"></a-box>
+    <a-cylinder id="myCylinder" pinchable draggable color="blue" scale="1 1 1"></a-cylinder>
     <!-- Puedes agregar más elementos aquí -->
 
     <!-- Cámara con AR y sin marcador -->
@@ -25,41 +24,39 @@
   </a-scene>
 
   <script>
-    AFRAME.registerComponent('pinch-to-scale', {
-      schema: {
-        min: { default: 0.3 },
-        max: { default: 8 }
-      },
+    AFRAME.registerComponent('pinchable', {
       init: function () {
         this.scaleFactor = 1;
-        this.handleEvent = this.handleEvent.bind(this);
-        this.el.sceneEl.addEventListener('pinch', this.handleEvent);
+        this.handlePinch = this.handlePinch.bind(this);
+        this.el.sceneEl.addEventListener('pinch', this.handlePinch);
       },
-      remove: function () {
-        this.el.sceneEl.removeEventListener('pinch', this.handleEvent);
-      },
-      handleEvent: function (event) {
+      handlePinch: function (event) {
         this.scaleFactor *= 1 + event.detail.difference / 5;
-        this.scaleFactor = Math.min(Math.max(this.scaleFactor, this.data.min), this.data.max);
+        this.scaleFactor = Math.min(Math.max(this.scaleFactor, 0.1), 5);
         this.el.object3D.scale.set(this.scaleFactor, this.scaleFactor, this.scaleFactor);
       }
     });
 
-    AFRAME.registerComponent('grabbable', {
+    AFRAME.registerComponent('draggable', {
       init: function () {
-        this.Grab = this.Grab.bind(this);
-        this.Release = this.Release.bind(this);
-        this.el.addEventListener('grab-start', this.Grab);
-        this.el.addEventListener('grab-end', this.Release);
+        this.startPosition = new THREE.Vector3();
+        this.handleDragStart = this.handleDragStart.bind(this);
+        this.handleDragMove = this.handleDragMove.bind(this);
+        this.handleDragEnd = this.handleDragEnd.bind(this);
+
+        this.el.addEventListener('drag-start', this.handleDragStart);
+        this.el.addEventListener('drag-move', this.handleDragMove);
+        this.el.addEventListener('drag-end', this.handleDragEnd);
       },
-      Grab: function (event) {
-        this.el.setAttribute('kinematic-body', 'enabled', false);
-        this.el.body.el = null;
-        this.el.body.velocity.set(0, 0, 0);
-        this.el.body.angularVelocity.set(0, 0, 0);
+      handleDragStart: function (event) {
+        this.startPosition.copy(this.el.object3D.position);
       },
-      Release: function (event) {
-        this.el.setAttribute('kinematic-body', 'enabled', true);
+      handleDragMove: function (event) {
+        const { x, y, z } = this.startPosition.clone().add(event.detail.positionDelta);
+        this.el.object3D.position.set(x, y, z);
+      },
+      handleDragEnd: function (event) {
+        // Puedes agregar acciones adicionales cuando finaliza el arrastre
       }
     });
   </script>
