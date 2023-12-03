@@ -8,46 +8,30 @@
 </head>
 <body>
   <a-scene embedded arjs='sourceType: webcam;'>
-    <!-- Tres cajas en la escena -->
-    <a-box id="box1" color="red" scale="0.2 0.2 0.2"></a-box>
-    <a-box id="box2" color="green" scale="0.2 0.2 0.2"></a-box>
-    <a-box id="box3" color="blue" scale="0.2 0.2 0.2"></a-box>
+    <!-- Caja que se puede agarrar y mover -->
+    <a-box grabbable color="red" scale="0.2 0.2 0.2" position="0 1.6 -3"></a-box>
 
     <!-- Cámara con AR y sin marcador -->
     <a-entity camera></a-entity>
-
-    <a-entity id="rig" position="0 0 0">
-      <!-- Componente que actualiza la posición de las cajas en cada fotograma -->
-      <a-entity id="marker" cursor="rayOrigin: mouse"></a-entity>
-      <a-box position="0 0.1 -0.5" color="#4CC3D9" shadow></a-box>
-      <a-plane position="0 0 -0.5" rotation="-90 0 0" width="4" height="4" color="#7BC8A4"></a-plane>
-    </a-entity>
   </a-scene>
 
   <script>
-    AFRAME.registerComponent('update-objects', {
-      tick: function () {
-        // Obtener la posición de la cámara
-        var cameraPosition = this.el.sceneEl.camera.el.getAttribute('position');
+    AFRAME.registerComponent('grabbable', {
+      init: function () {
+        this.Grab = this.Grab.bind(this);
+        this.Release = this.Release.bind(this);
 
-        // Actualizar la posición de las cajas para que estén frente a la cámara
-        document.getElementById('box1').setAttribute('position', {
-          x: cameraPosition.x - 0.5,
-          y: cameraPosition.y,
-          z: cameraPosition.z - 1
-        });
-
-        document.getElementById('box2').setAttribute('position', {
-          x: cameraPosition.x,
-          y: cameraPosition.y,
-          z: cameraPosition.z - 1
-        });
-
-        document.getElementById('box3').setAttribute('position', {
-          x: cameraPosition.x + 0.5,
-          y: cameraPosition.y,
-          z: cameraPosition.z - 1
-        });
+        this.el.addEventListener('grab-start', this.Grab);
+        this.el.addEventListener('grab-end', this.Release);
+      },
+      Grab: function (event) {
+        this.el.setAttribute('kinematic-body', 'enabled', false);
+        this.el.body.el = null;
+        this.el.body.velocity.set(0, 0, 0);
+        this.el.body.angularVelocity.set(0, 0, 0);
+      },
+      Release: function (event) {
+        this.el.setAttribute('kinematic-body', 'enabled', true);
       }
     });
   </script>
