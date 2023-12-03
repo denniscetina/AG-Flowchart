@@ -6,62 +6,21 @@
   <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
   <script src="https://jeromeetienne.github.io/AR.js/aframe/build/aframe-ar.js"></script>
   <script src="https://rawgit.com/ngokevin/aframe-gui/master/dist/aframe-gui.js"></script>
+  <!-- A-Frame itself -->
+<script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
+
+<!-- Pure three.js code that the A-Frame components use for location-based AR -->
+<script type='text/javascript' src='https://raw.githack.com/AR-js-org/AR.js/master/three.js/build/ar-threex-location-only.js'></script>
+
+<!-- AR.js A-Frame components -->
+<script type='text/javascript' src='https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js'></script>
+  
 </head>
 <body>
-  <a-scene embedded arjs='sourceType: webcam;'>
-    <!-- Agrega elementos 3D para representar tu diagrama de flujo -->
-    <a-box id="myBox" grabbable pinch-to-scale color="red" scale="1 1 1"></a-box>
-    <a-cylinder id="myCylinder" grabbable pinch-to-scale color="blue" scale="1 1 1"></a-cylinder>
-    <!-- Puedes agregar más elementos aquí -->
-
-    <!-- Cámara con AR y sin marcador -->
-    <a-entity camera look-controls position="0 1.6 0"></a-entity>
-    <a-entity id="rig" position="25 10 0">
-      <a-entity camera look-controls>
-        <a-entity geometry="primitive: plane; height: 0.2; width: 0.2" position="0 0 -1"
-                  material="color: gray; opacity: 0.5"></a-entity>
-      </a-entity>
-    </a-entity>
-  </a-scene>
-
-  <script>
-    AFRAME.registerComponent('pinch-to-scale', {
-      schema: {
-        min: { default: 0.3 },
-        max: { default: 8 }
-      },
-      init: function () {
-        this.scaleFactor = 1;
-        this.handleEvent = this.handleEvent.bind(this);
-        this.el.sceneEl.addEventListener('pinch', this.handleEvent);
-      },
-      remove: function () {
-        this.el.sceneEl.removeEventListener('pinch', this.handleEvent);
-      },
-      handleEvent: function (event) {
-        this.scaleFactor *= 1 + event.detail.difference / 5;
-        this.scaleFactor = Math.min(Math.max(this.scaleFactor, this.data.min), this.data.max);
-        this.el.object3D.scale.set(this.scaleFactor, this.scaleFactor, this.scaleFactor);
-      }
-    });
-
-    AFRAME.registerComponent('grabbable', {
-      init: function () {
-        this.Grab = this.Grab.bind(this);
-        this.Release = this.Release.bind(this);
-        this.el.addEventListener('grab-start', this.Grab);
-        this.el.addEventListener('grab-end', this.Release);
-      },
-      Grab: function (event) {
-        this.el.setAttribute('kinematic-body', 'enabled', false);
-        this.el.body.el = null;
-        this.el.body.velocity.set(0, 0, 0);
-        this.el.body.angularVelocity.set(0, 0, 0);
-      },
-      Release: function (event) {
-        this.el.setAttribute('kinematic-body', 'enabled', true);
-      }
-    });
-  </script>
-</body>
+  <body>
+    <a-scene vr-mode-ui='enabled: false' arjs='sourceType: webcam; videoTexture: true; debugUIEnabled: false' renderer='antialias: true; alpha: true'>
+        <a-camera gps-new-camera='gpsMinDistance: 5'></a-camera>
+        <a-entity material='color: red' geometry='primitive: box' gps-new-entity-place="latitude: 19.568157; longitude: -88.042146" scale="10 10 10"></a-entity>
+    </a-scene>
+    </body>
 </html>
