@@ -1,55 +1,55 @@
 <!DOCTYPE html>
-<html>
-  <script src="https://cdn.jsdelivr.net/gh/aframevr/aframe@1c2407b26c61958baa93967b5412487cd94b290b/dist/aframe-master.min.js"></script>
-<script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+  <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+</head>
+<body>
+  <a-scene embedded arjs='sourceType: webcam;'>
+    <!-- Tres cajas en la escena -->
+    <a-box id="box1" color="red" scale="0.2 0.2 0.2"></a-box>
+    <a-box id="box2" color="green" scale="0.2 0.2 0.2"></a-box>
+    <a-box id="box3" color="blue" scale="0.2 0.2 0.2"></a-box>
 
-<script>
-  window.addEventListener('load', () => {
-    const camera = document.querySelector('[camera]');
-    const marker = document.querySelector('a-marker');
-    let check;
-
-    marker.addEventListener('markerFound', () => {
-        let cameraPosition = camera.object3D.position;
-        let markerPosition = marker.object3D.position;
-        let distance = cameraPosition.distanceTo(markerPosition)
-
-        check = setInterval(() => {
-            cameraPosition = camera.object3D.position;
-            markerPosition = marker.object3D.position;
-            distance = cameraPosition.distanceTo(markerPosition)
-
-            // do what you want with the distance:
-            console.log(distance);
-        }, 100);
-    });
-
-    marker.addEventListener('markerLost', () => {
-      clearInterval(check);
-    })
-})
-  AFRAME.registerComponent('markerhandler', {
-    init: function () {
-      this.el.sceneEl.addEventListener('markerFound', () => {
-        // redirect to custom URL e.g. google.com
-        window.location = 'https://www.google.com/';
-      })
-    }
-  });
-</script>
-
-<body style="margin : 0px; overflow: hidden;">
-  <a-scene
-    vr-mode-ui="enabled: false;"
-    renderer="logarithmicDepthBuffer: true;"
-    embedded
-    arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false; detectionMode: mono_and_matrix; matrixCodeType: 3x3;">
-
-    <a-marker markerhandler type='barcode' value='7'>
-        <a-box position='0 0.5 0' color="yellow"></a-box>
-    </a-marker>
-
+    <!-- Cámara con AR y sin marcador -->
     <a-entity camera></a-entity>
+
+    <a-entity id="rig" position="0 0 0">
+      <!-- Componente que actualiza la posición de las cajas en cada fotograma -->
+      <a-entity id="marker" cursor="rayOrigin: mouse"></a-entity>
+      <a-box position="0 0.1 -0.5" color="#4CC3D9" shadow></a-box>
+      <a-plane position="0 0 -0.5" rotation="-90 0 0" width="4" height="4" color="#7BC8A4"></a-plane>
+    </a-entity>
   </a-scene>
+
+  <script>
+    AFRAME.registerComponent('update-objects', {
+      tick: function () {
+        // Obtener la posición de la cámara
+        var cameraPosition = this.el.sceneEl.camera.el.getAttribute('position');
+
+        // Actualizar la posición de las cajas para que estén frente a la cámara
+        document.getElementById('box1').setAttribute('position', {
+          x: cameraPosition.x - 0.5,
+          y: cameraPosition.y,
+          z: cameraPosition.z - 1
+        });
+
+        document.getElementById('box2').setAttribute('position', {
+          x: cameraPosition.x,
+          y: cameraPosition.y,
+          z: cameraPosition.z - 1
+        });
+
+        document.getElementById('box3').setAttribute('position', {
+          x: cameraPosition.x + 0.5,
+          y: cameraPosition.y,
+          z: cameraPosition.z - 1
+        });
+      }
+    });
+  </script>
 </body>
 </html>
