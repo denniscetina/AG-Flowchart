@@ -41,13 +41,14 @@
         this.mostrarObjeto(this.indiceActual);
       },
       cambiarImagen: function (direccion) {
+        // Ocultar el objeto actual
+        this.objetos[this.indiceActual].setAttribute('visible', false);
+
+        // Cambiar el índice actual
         this.indiceActual = (this.indiceActual + direccion + this.objetos.length) % this.objetos.length;
-        this.mostrarObjeto(this.indiceActual);
-      },
-      mostrarObjeto: function (indice) {
-        for (var i = 0; i < this.objetos.length; i++) {
-          this.objetos[i].setAttribute('visible', i === indice);
-        }
+
+        // Mostrar el nuevo objeto
+        this.objetos[this.indiceActual].setAttribute('visible', true);
       }
     });
   </script>
