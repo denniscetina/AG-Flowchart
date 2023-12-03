@@ -16,10 +16,10 @@
   <!-- Galería de objetos -->
   <a-scene embedded arjs='sourceType: webcam;'>
     <a-entity id="galeria" position="0 2 -5" galeria>
-      <a-box id="objeto1" color="red" scale="1 1 1"></a-box>
-      <a-cylinder id="objeto2" color="green" scale="1 1 1"></a-cylinder>
-      <a-sphere id="objeto3" color="blue" scale="1 1 1"></a-sphere>
-      <a-cone id="objeto4" color="yellow" scale="1 1 1"></a-cone>
+      <a-box id="objeto1" color="red" scale="1 1 1" visible="false"></a-box>
+      <a-cylinder id="objeto2" color="green" scale="1 1 1" visible="false"></a-cylinder>
+      <a-sphere id="objeto3" color="blue" scale="1 1 1" visible="false"></a-sphere>
+      <a-cone id="objeto4" color="yellow" scale="1 1 1" visible="false"></a-cone>
     </a-entity>
 
     <!-- Cámara con AR y sin marcador -->
@@ -37,7 +37,10 @@
         this.indiceActual = 0;
         this.objetos = this.el.children;
 
-        // Mostrar el primer objeto, ocultar los demás
+        // Ocultar todos los objetos al inicio
+        this.objetos.forEach(objeto => objeto.setAttribute('visible', false));
+
+        // Mostrar el primer objeto
         this.mostrarObjeto(this.indiceActual);
       },
       cambiarImagen: function (direccion) {
