@@ -3,112 +3,43 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    #joystick-container {
-      position: absolute;
-      bottom: 20px;
-      left: 20px;
-      width: 100px;
-      height: 100px;
-      background-color: rgba(0, 0, 0, 0.5);
-      border-radius: 50%;
-      touch-action: none;
-    }
-
-    #joystick-handle {
-      position: absolute;
-      width: 50px;
-      height: 50px;
-      background-color: #3498db;
-      border-radius: 50%;
-      top: 25px;
-      left: 25px;
-    }
-  </style>
   <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
   <script src="https://jeromeetienne.github.io/AR.js/aframe/build/aframe-ar.js"></script>
 </head>
 <body>
+  <!-- Botones HTML para controlar la escala -->
+  <div style="position: absolute; top: 10px; left: 10px; z-index: 1;">
+    <button onclick="scaleObject('myBox', 1.2)">Scale Up</button>
+    <button onclick="scaleObject('myBox', 0.8)">Scale Down</button>
+    <button onclick="scaleObject('myCylinder', 1.2)">Scale Up</button>
+    <button onclick="scaleObject('myCylinder', 0.8)">Scale Down</button>
+  </div>
+
   <a-scene embedded arjs='sourceType: webcam;'>
     <!-- Agrega elementos 3D para representar tu diagrama de flujo -->
-    <a-box id="myBox" grabbable color="red" scale="1 1 1" 
-           mixin="joystick-move"
-           position="-1 1.6 -3"></a-box>
-
-    <a-cylinder id="myCylinder" grabbable color="blue" scale="1 1 1" 
-                mixin="joystick-move"
-                position="1 1.6 -3"></a-cylinder>
+    <a-box id="myBox" grabbable color="red" scale="1 1 1"></a-box>
+    <a-cylinder id="myCylinder" grabbable color="blue" scale="1 1 1"></a-cylinder>
     <!-- Puedes agregar más elementos aquí -->
 
     <!-- Cámara con AR y sin marcador -->
     <a-entity camera look-controls position="0 1.6 2"></a-entity>
-
-    <!-- Joystick HTML -->
-    <div id="joystick-container">
-      <div id="joystick-handle" draggable="true"></div>
-    </div>
+    
   </a-scene>
 
   <script>
-    // Obtener elementos HTML del joystick
-    var joystickContainer = document.getElementById('joystick-container');
-    var joystickHandle = document.getElementById('joystick-handle');
+    var secondCameraEl = document.querySelector('#second-camera');
+secondCameraEl.setAttribute('camera', 'active', true);
+    function scaleObject(objectId, scaleAmount) {
+      var target = document.getElementById(objectId);
+      var currentScale = target.getAttribute('scale');
 
-    // Variables para almacenar la posición inicial del joystick y la dirección del movimiento
-    var initialX, initialY, deltaX, deltaY;
-
-    // Función para manejar el evento de inicio de arrastre
-    function handleDragStart(e) {
-      e.preventDefault();
-      initialX = e.clientX;
-      initialY = e.clientY;
-      document.addEventListener('mousemove', handleDragMove);
-      document.addEventListener('mouseup', handleDragEnd);
+      // Escala el objeto
+      target.setAttribute('scale', {
+        x: currentScale.x * scaleAmount,
+        y: currentScale.y * scaleAmount,
+        z: currentScale.z * scaleAmount
+      });
     }
-
-    // Función para manejar el evento de movimiento durante el arrastre
-    function handleDragMove(e) {
-      e.preventDefault();
-      deltaX = e.clientX - initialX;
-      deltaY = e.clientY - initialY;
-
-      // Calcula la dirección del movimiento y actualiza la posición del joystick
-      var angle = Math.atan2(deltaY, deltaX);
-      var distance = Math.min(50, Math.hypot(deltaX, deltaY));
-
-      joystickHandle.style.left = 25 + distance * Math.cos(angle) + 'px';
-      joystickHandle.style.top = 25 + distance * Math.sin(angle) + 'px';
-
-      // Usa deltaX y deltaY para mover el objeto en A-Frame
-      moveObject(deltaX, deltaY);
-    }
-
-    // Función para manejar el evento de fin de arrastre
-    function handleDragEnd(e) {
-      e.preventDefault();
-      document.removeEventListener('mousemove', handleDragMove);
-      document.removeEventListener('mouseup', handleDragEnd);
-
-      // Restablece la posición del joystick al centro
-      joystickHandle.style.left = '25px';
-      joystickHandle.style.top = '25px';
-
-      // Restablece las variables de posición
-      initialX = null;
-      initialY = null;
-
-      // Puedes realizar acciones adicionales cuando se suelta el joystick
-    }
-
-    // Función para mover el objeto en A-Frame
-    function moveObject(deltaX, deltaY) {
-      // Implementa el movimiento del objeto en A-Frame aquí
-      // Puedes usar deltaX y deltaY para calcular la dirección y velocidad del movimiento
-    }
-
-    // Agrega eventos al joystick HTML
-    joystickHandle.addEventListener('mousedown', handleDragStart);
-    joystickHandle.addEventListener('touchstart', handleDragStart);
   </script>
 </body>
 </html>
