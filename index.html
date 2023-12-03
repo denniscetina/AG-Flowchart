@@ -7,59 +7,29 @@
   <script src="https://jeromeetienne.github.io/AR.js/aframe/build/aframe-ar.js"></script>
 </head>
 <body>
-  <!-- Botones HTML para controlar la escala -->
+  <!-- Botones HTML para controlar la galería -->
   <div style="position: absolute; top: 10px; left: 10px; z-index: 1;">
-    <button onclick="scaleObject('myBox', 1.2)">Scale Up</button>
-    <button onclick="scaleObject('myBox', 0.8)">Scale Down</button>
+    <button onclick="cambiarImagen(-1)">Anterior</button>
+    <button onclick="cambiarImagen(1)">Siguiente</button>
   </div>
 
-  <!-- Galería con flechas -->
+  <!-- Galería de objetos -->
   <a-scene embedded arjs='sourceType: webcam;'>
-    <!-- Flecha izquierda -->
-    <a-entity
-      id="arrow-left"
-      geometry="primitive: plane; width: 1; height: 1"
-      material="src: arrow-left.png"
-      position="-2 2 -5"
-      event-set__1="_event: click; _target: #galeria; _function: cambiarImagenAnterior"
-    ></a-entity>
-
-    <!-- Galería de objetos -->
     <a-entity id="galeria" position="0 2 -5" galeria>
-      <!-- Objeto 1 -->
       <a-box id="objeto1" color="red" scale="1 1 1"></a-box>
-      <!-- Objeto 2 -->
       <a-cylinder id="objeto2" color="green" scale="1 1 1"></a-cylinder>
-      <!-- Objeto 3 -->
       <a-sphere id="objeto3" color="blue" scale="1 1 1"></a-sphere>
-      <!-- Objeto 4 -->
       <a-cone id="objeto4" color="yellow" scale="1 1 1"></a-cone>
     </a-entity>
-
-    <!-- Flecha derecha -->
-    <a-entity
-      id="arrow-right"
-      geometry="primitive: plane; width: 1; height: 1"
-      material="src: arrow-right.png"
-      position="2 2 -5"
-      event-set__1="_event: click; _target: #galeria; _function: cambiarImagenSiguiente"
-    ></a-entity>
 
     <!-- Cámara con AR y sin marcador -->
     <a-entity camera="zoom: 1" look-controls position="0 2 8"></a-entity>
   </a-scene>
 
   <script>
-    function scaleObject(objectId, scaleAmount) {
-      var target = document.getElementById(objectId);
-      var currentScale = target.getAttribute('scale');
-
-      // Escala el objeto
-      target.setAttribute('scale', {
-        x: currentScale.x * scaleAmount,
-        y: currentScale.y * scaleAmount,
-        z: currentScale.z * scaleAmount
-      });
+    function cambiarImagen(direccion) {
+      var galeria = document.getElementById('galeria').components.galeria;
+      galeria.cambiarImagen(direccion);
     }
 
     AFRAME.registerComponent('galeria', {
@@ -70,12 +40,8 @@
         // Mostrar el primer objeto, ocultar los demás
         this.mostrarObjeto(this.indiceActual);
       },
-      cambiarImagenAnterior: function () {
-        this.indiceActual = (this.indiceActual - 1 + this.objetos.length) % this.objetos.length;
-        this.mostrarObjeto(this.indiceActual);
-      },
-      cambiarImagenSiguiente: function () {
-        this.indiceActual = (this.indiceActual + 1) % this.objetos.length;
+      cambiarImagen: function (direccion) {
+        this.indiceActual = (this.indiceActual + direccion + this.objetos.length) % this.objetos.length;
         this.mostrarObjeto(this.indiceActual);
       },
       mostrarObjeto: function (indice) {
