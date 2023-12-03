@@ -13,19 +13,40 @@
     <button onclick="scaleObject('myBox', 0.8)">Scale Down</button>
   </div>
 
+  <!-- Galería con flechas -->
   <a-scene embedded arjs='sourceType: webcam;'>
-    <!-- Agrega elementos 3D para representar tu diagrama de flujo -->
-    <a-box id="myBox" grabbable color="red" scale="1 1 1"></a-box>
-    
-    <a-entity scale="5 5 5" position="0 2 0">
-      <a-text value="Hello World" align="center" position="0 0.5 0" color="#000"></a-text>
+    <!-- Flecha izquierda -->
+    <a-entity
+      id="arrow-left"
+      geometry="primitive: plane; width: 1; height: 1"
+      material="src: arrow-left.png"
+      position="-2 2 -5"
+      event-set__1="_event: click; _target: #galeria; _function: cambiarImagenAnterior"
+    ></a-entity>
+
+    <!-- Galería de objetos -->
+    <a-entity id="galeria" position="0 2 -5" galeria>
+      <!-- Objeto 1 -->
+      <a-box id="objeto1" color="red" scale="1 1 1"></a-box>
+      <!-- Objeto 2 -->
+      <a-cylinder id="objeto2" color="green" scale="1 1 1"></a-cylinder>
+      <!-- Objeto 3 -->
+      <a-sphere id="objeto3" color="blue" scale="1 1 1"></a-sphere>
+      <!-- Objeto 4 -->
+      <a-cone id="objeto4" color="yellow" scale="1 1 1"></a-cone>
     </a-entity>
-    
-    <!-- Puedes agregar más elementos aquí -->
+
+    <!-- Flecha derecha -->
+    <a-entity
+      id="arrow-right"
+      geometry="primitive: plane; width: 1; height: 1"
+      material="src: arrow-right.png"
+      position="2 2 -5"
+      event-set__1="_event: click; _target: #galeria; _function: cambiarImagenSiguiente"
+    ></a-entity>
 
     <!-- Cámara con AR y sin marcador -->
     <a-entity camera="zoom: 1" look-controls position="0 2 8"></a-entity>
-    
   </a-scene>
 
   <script>
@@ -40,6 +61,29 @@
         z: currentScale.z * scaleAmount
       });
     }
+
+    AFRAME.registerComponent('galeria', {
+      init: function () {
+        this.indiceActual = 0;
+        this.objetos = this.el.children;
+
+        // Mostrar el primer objeto, ocultar los demás
+        this.mostrarObjeto(this.indiceActual);
+      },
+      cambiarImagenAnterior: function () {
+        this.indiceActual = (this.indiceActual - 1 + this.objetos.length) % this.objetos.length;
+        this.mostrarObjeto(this.indiceActual);
+      },
+      cambiarImagenSiguiente: function () {
+        this.indiceActual = (this.indiceActual + 1) % this.objetos.length;
+        this.mostrarObjeto(this.indiceActual);
+      },
+      mostrarObjeto: function (indice) {
+        for (var i = 0; i < this.objetos.length; i++) {
+          this.objetos[i].setAttribute('visible', i === indice);
+        }
+      }
+    });
   </script>
 </body>
 </html>
