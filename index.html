@@ -1,37 +1,22 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AR.js with A-Frame</title>
-  <script src="https://cdn.jsdelivr.net/gh/aframevr/aframe@1c2407b26c61958baa93967b5412487cd94b290b/dist/aframe-master.min.js"></script>
-  <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
+  <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
 </head>
 <body>
-  <a-scene arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;" vr-mode-ui="enabled: false">
-    <a-assets>
-      
-      <a-asset-item id="Con_obj" src="Modelos/fish.obj"></a-asset-item>
-      <a-asset-item id="Con_mtl" src="Modelos/fish.mtl"></a-asset-item>
-    </a-assets>
-    <a-marker type="pattern" preset="hiro" markerhandler>
-      <a-entity grabbable>
-        <!-- Uncomment the appropriate line based on the model you want to use -->
-        <!-- <a-dodecahedron color="#FF926B" radius="1"></a-dodecahedron> -->
-        <!-- <a-obj-model src="#PS5_obj" mtl="#PS5_mtl"></a-obj-model> -->
-        <a-obj-model src="#Con_obj" mtl="#Con_mtl"></a-obj-model>
-      </a-entity>
+  <a-scene arjs='debugUIEnabled: false;'>
+    <!-- Marcador de geolocalización -->
+    <a-marker preset="hiro">
+      <!-- Agrega elementos 3D para representar tu diagrama de flujo -->
+      <a-box position="0 0.5 0" rotation="0 45 0" color="red"></a-box>
+      <a-cylinder position="1 0.75 0" radius="0.5" height="1.5" color="blue"></a-cylinder>
+      <!-- Puedes agregar más elementos aquí -->
     </a-marker>
+
+    <!-- Cámara con AR -->
     <a-entity camera></a-entity>
   </a-scene>
-
-  <script>
-    AFRAME.registerComponent('markerhandler', {
-      init: function () {
-        this.el.sceneEl.addEventListener('markerFound', () => {
-          console.log('Marcador Encontrado');
-        });
-      }
-    });
-  </script>
 </body>
 </html>
