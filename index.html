@@ -9,16 +9,34 @@
 <body>
   <a-scene embedded arjs='sourceType: webcam;'>
     <!-- Agrega elementos 3D para representar tu diagrama de flujo -->
-    <a-box id="myBox" draggable color="red" scale="1 1 1"></a-box>
-    <a-cylinder id="myCylinder" draggable color="blue" scale="1 1 1"></a-cylinder>
+    <a-box id="myBox" pinchable draggable color="red" scale="1 1 1"></a-box>
+    <a-cylinder id="myCylinder" pinchable draggable color="blue" scale="1 1 1"></a-cylinder>
     <!-- Puedes agregar más elementos aquí -->
 
     <!-- Cámara con AR y sin marcador -->
-    <a-entity camera look-controls position="0 1.6 1"></a-entity>
-    
+    <a-entity camera look-controls position="0 1.6 0"></a-entity>
+    <a-entity id="rig" position="25 10 0">
+      <a-entity camera look-controls>
+        <a-entity geometry="primitive: plane; height: 0.2; width: 0.2" position="0 0 -1"
+                  material="color: gray; opacity: 0.5"></a-entity>
+      </a-entity>
+    </a-entity>
   </a-scene>
 
   <script>
+    AFRAME.registerComponent('pinchable', {
+      init: function () {
+        this.scaleFactor = 1;
+        this.handlePinch = this.handlePinch.bind(this);
+        this.el.sceneEl.addEventListener('pinch', this.handlePinch);
+      },
+      handlePinch: function (event) {
+        this.scaleFactor *= 1 + event.detail.difference / 5;
+        this.scaleFactor = Math.min(Math.max(this.scaleFactor, 0.1), 5);
+        this.el.object3D.scale.set(this.scaleFactor, this.scaleFactor, this.scaleFactor);
+      }
+    });
+
     AFRAME.registerComponent('draggable', {
       init: function () {
         this.startPosition = new THREE.Vector3();
