@@ -17,30 +17,28 @@
     <!-- Agrega elementos 3D para representar tu diagrama de flujo -->
     
     <!-- Inicio/Final -->
-    <a-gltf-model grabbable src="Modelos/inicio-fin.glb" position="0 0 0" rotation="0 90 0"></a-gltf-model>
-    <a-entity scale="0.5 0.5 0.5" position="0 0.5 0">
+    <a-gltf-model grabbable src="Modelos/inicio-fin.glb" position="-5 0 5" rotation="0 180 0"></a-gltf-model>
+    <a-entity scale="0.5 0.5 0.5" position="-5 1.5 5" look-at="[camera]">
       <a-text value="Inicio/Final \n Representa el inicio y el final de un proceso" align="center" position="0 0.5 0" color="#000"></a-text>
     </a-entity>
 
     <!-- Flecha -->
-    <a-gltf-model src="Modelos/arrow.glb" position="2 1 5" rotation="0 50 0"></a-gltf-model>
-    <a-entity scale="0.5 0.5 0.5" position="2 1.5 5" >
+    <a-gltf-model src="Modelos/arrow.glb" position="5 0 0" rotation="0 90 0"></a-gltf-model>
+    <a-entity scale="0.5 0.5 0.5" position="5 1.5 0" look-at="[camera]">
       <a-text value="Flecha \n Representa un flujo de proceso" align="center" position="0 0.5 0" color="#000"></a-text>
     </a-entity>
 
     <!-- Entrada/Salida -->
-    <a-gltf-model grabbable src="Modelos/entrada-salida.glb" position="2 1.5 7" rotation="0 50 0"></a-gltf-model>
-    <a-entity scale="0.5 0.5 0.5" position="2 1.8 7">
+    <a-gltf-model grabbable src="Modelos/entrada-salida.glb" position="5 0 -5" rotation="0 90 0"></a-gltf-model>
+    <a-entity scale="0.5 0.5 0.5" position="5 1.5 -5" look-at="[camera]">
       <a-text value="Entrada/Salida \n Representa entrada o salida de datos" align="center" position="0 0.5 0" color="#000"></a-text>
     </a-entity>
 
     <!-- Proceso -->
-    <a-box grabbable color="green" scale="1 1 1" position="20 0 1"></a-box>
-    <a-entity scale="0.5 0.5 0.5" position="3 2 0">
+    <a-box grabbable color="green" scale="1 1 1" position="0 0 5"></a-box>
+    <a-entity scale="0.5 0.5 0.5" position="0 1.5 5" look-at="[camera]">
       <a-text value="Proceso \n Representa cualquier tipo de operación" align="center" position="0 0.5 0" color="#000"></a-text>
     </a-entity>
-
-    <!-- Puedes agregar más elementos aquí -->
 
     <!-- Cámara con AR y sin marcador -->
     <a-entity camera="zoom: 1" look-controls position="0 2 8"></a-entity>
