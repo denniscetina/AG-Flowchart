@@ -8,42 +8,28 @@
 </head>
 <body>
   <!-- Botones HTML para controlar la escala -->
-  <div style="position: absolute; top: 10px; left: 10px; z-index: 1;">
-    <button onclick="scaleObject('myBox', 1.2)">Scale Up</button>
-    <button onclick="scaleObject('myBox', 0.8)">Scale Down</button>
-  </div>
+  
 
   <a-scene embedded arjs='sourceType: webcam;'>
     <!-- Agrega elementos 3D para representar tu diagrama de flujo -->
     
     <!-- Inicio/Final -->
-    <a-gltf-model grabbable src="Modelos/inicio-fin.glb" position="0 0 0" rotation="0 90 0"></a-gltf-model>
-    <a-entity scale="0.5 0.5 0.5" position="0 0.5 0">
-      <a-text value="Inicio/Final \n Representa el inicio y el final de un proceso" align="center" position="0 0.5 0" color="#000"></a-text>
-    </a-entity>
-
-    <!-- Flecha -->
-    <a-gltf-model src="Modelos/arrow.glb" position="2 1 5" rotation="0 50 0"></a-gltf-model>
-    <a-entity scale="0.5 0.5 0.5" position="2 1.5 5" >
-      <a-text value="Flecha \n Representa un flujo de proceso" align="center" position="0 0.5 0" color="#000"></a-text>
-    </a-entity>
-
-    <!-- Entrada/Salida -->
-    <a-gltf-model grabbable src="Modelos/entrada-salida.glb" position="2 1.5 7" rotation="0 50 0"></a-gltf-model>
-    <a-entity scale="0.5 0.5 0.5" position="2 1.8 7" >
-      <a-text value="Entrada/Salida \n Representa entrada o salida de datos" align="center" position="0 0.5 0" color="#000" rotation="0 -18 0"></a-text>
-    </a-entity>
-
-    <!-- Proceso -->
-    <a-box grabbable color="green" scale="1 1 1" position="20 0 1"></a-box>
-    <a-entity scale="0.5 0.5 0.5" position="3 2 0">
-      <a-text value="Proceso \n Representa cualquier tipo de operación" align="center" position="0 0.5 0" color="#000"></a-text>
-    </a-entity>
+    <a-gltf-model scale="2 2 2" src="Modelos/inicio-fin.glb" position="0 0 0" rotation="0 90 0"></a-gltf-model>
+    <a-text value="Inicio/Final \n Representa el inicio y el final de un proceso" align="center" position="0 1 0" color="#FFF"></a-text>
+    
+    <!-- Arrow -->
+    <a-gltf-model scale="1.2 1.2 1.2" src="Modelos/arrow.glb" position="3 0 5" rotation="0 240 0"></a-gltf-model>
+    <a-text value="Línea de flujo \n Indica el orden de la ejecución de las operaciones" align="center" position="5 1 1"  rotation="0 -25 0"color="#FFF"></a-text>
+    
+    <a-gltf-model scale="1.2 1.2 1.2" src="Modelos/entrada-salida.glb" position="6 0 10" rotation="0 240 0"></a-gltf-model>
+    <a-text value="Entrada/Salida \n Representa la lectura de datos en la entrada y la impresión de datos en la salida" align="center" position="10 1 5"  rotation="0 -25 0"color="#FFF"></a-text>
+    
+   
 
     <!-- Puedes agregar más elementos aquí -->
 
     <!-- Cámara con AR y sin marcador -->
-    <a-entity camera="zoom: 1" look-controls position="0 2 8"></a-entity>
+    <a-entity camera="zoom: 1" look-controls position="0 0 15"></a-entity>
     
   </a-scene>
 
