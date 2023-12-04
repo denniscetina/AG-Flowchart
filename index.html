@@ -16,27 +16,31 @@
   <a-scene embedded arjs='sourceType: webcam;'>
     <!-- Agrega elementos 3D para representar tu diagrama de flujo -->
     
-    <a-gltf-model grabbable src="Modelos/inicio-fin.glb" rotation="0 40 0" position="0 0 0"></a-gltf-model>
-    
-    <a-entity scale="0.5 0.5 0.5" text="value: Inicio/Final; align: center; color: #FFFFFF" rotation="0 40 0" position="0 2 -3"></a-entity>
+    <!-- Inicio/Final -->
+    <a-gltf-model grabbable src="Modelos/inicio-fin.glb" position="0 0 0" rotation="0 90 0"></a-gltf-model>
+    <a-entity scale="0.5 0.5 0.5" position="0 0.5 0">
+      <a-text value="Inicio/Final \n Representa el inicio y el final de un proceso" align="center" position="0 0.5 0" color="#000"></a-text>
+    </a-entity>
 
-    <a-gltf-model grabbable src="Modelos/arrow.glb" rotation="0 40 0" position="0 0 0"></a-gltf-model>
-    
-    <a-entity scale="0.5 0.5 0.5" text="value: Flecha; align: center; color: #FFFFFF" rotation="0 40 0" position="3 2 0"></a-entity>
+    <!-- Flecha -->
+    <a-gltf-model src="Modelos/arrow.glb" position="7 1 0" rotation="0 90 0"></a-gltf-model>
+    <a-entity scale="0.5 0.5 0.5" position="10 1 0">
+      <a-text value="Flecha \n Representa un flujo de proceso" align="center" position="0 0.5 0" color="#000"></a-text>
+    </a-entity>
 
-    <a-gltf-model grabbable src="Modelos/entrada-salida.glb" rotation="0 40 0" position="0 0 0"></a-gltf-model>
-    
-    <a-entity scale="0.5 0.5 0.5" text="value: Entrada/Salida; align: center; color: #FFFFFF" rotation="0 40 0" position="-3 2 0"></a-entity>
+    <!-- Entrada/Salida -->
+    <a-gltf-model grabbable src="Modelos/entrada-salida.glb" position="12 1 0" rotation="0 90 0"></a-gltf-model>
+    <a-entity scale="0.5 0.5 0.5" position="15 1 0">
+      <a-text value="Entrada/Salida \n Representa entrada o salida de datos" align="center" position="0 0.5 0" color="#000"></a-text>
+    </a-entity>
 
-    <a-box grabbable color="green" scale="1 1 1" position="0 0 0"></a-box>
-    
-    <a-entity scale="0.5 0.5 0.5" text="value: Proceso; align: center; color: #FFFFFF" rotation="0 40 0" position="0 2 3"></a-entity>
+    <!-- Proceso -->
+    <a-box grabbable color="green" scale="1 1 1" position="3 1 0"></a-box>
+    <a-entity scale="0.5 0.5 0.5" position="3 2 0">
+      <a-text value="Proceso \n Representa cualquier tipo de operación" align="center" position="0 0.5 0" color="#000"></a-text>
+    </a-entity>
 
-    <a-gltf-model grabbable src="Modelos/arrow.glb" rotation="0 40 0" position="0 0 0"></a-gltf-model>
-    
-    <a-entity scale="0.5 0.5 0.5" text="value: Flecha; align: center; color: #FFFFFF" rotation="0 40 0" position="-3 2 0"></a-entity>
-
-    <!-- Puedes seguir agregando más elementos aquí -->
+    <!-- Puedes agregar más elementos aquí -->
 
     <!-- Cámara con AR y sin marcador -->
     <a-entity camera="zoom: 1" look-controls position="0 2 8"></a-entity>
